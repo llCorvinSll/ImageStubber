@@ -1,4 +1,9 @@
-$HEADER$namespace $NAMESPACE$
+using System.IO;
+
+namespace ImageStubber.ImageGenerator
 {
-  public interface $INTERFACE$ {$END$}
+    public interface IImageGenerator
+    {
+        MemoryStream GenerateImage(int width, int height, string bgColor, string textColor);
+    }
 }
