@@ -3,6 +3,7 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Drawing.Text;
 using System.IO;
+using System.Runtime.InteropServices;
 using Microsoft.Extensions.Logging;
 
 namespace ImageStubber.ImageGenerator
@@ -11,32 +12,13 @@ namespace ImageStubber.ImageGenerator
     {   
         private readonly ILogger<ImageGenerator> _logger;
         
+        private const string FontCollectionFamily = "JetBrains Mono NL";
+        private const int FontSize = 27;
+        
         public ImageGenerator(ILogger<ImageGenerator> logger)
         {
             _logger = logger;
         }
-
-        private PrivateFontCollection getFontCollection()
-        {
-            var fontCollection = new PrivateFontCollection();
-            
-            var fontStream = GetType().Assembly.GetManifestResourceStream("ImageStubber.font.JetBrainsMonoNL-Medium.ttf");
-
-            var fontdata = new byte[fontStream!.Length];
-            fontStream.Read(fontdata,0,(int)fontStream.Length);
-            fontStream.Close();
-
-            unsafe
-            {
-                fixed(byte * pFontData = fontdata)
-                {
-                    fontCollection.AddMemoryFont((System.IntPtr)pFontData,fontdata.Length);
-                }
-            }
-
-            return fontCollection;
-        }
-
         public MemoryStream GenerateImage(int width, int height, string bgColor, string textColor)
         {
             using var bitmap = new Bitmap(width, height, PixelFormat.Format32bppArgb);
@@ -55,12 +37,8 @@ namespace ImageStubber.ImageGenerator
             graphics.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
 
             var caption = $"{width}x{height}";
-
-            using var pfk = getFontCollection();
-
-            var fontCollectionFamily = pfk.Families[0];
             
-            var font = new Font(fontCollectionFamily,27);
+            var font = new Font(FontCollectionFamily, FontSize);
 
             var textArea = graphics.MeasureString(caption, font);
 
