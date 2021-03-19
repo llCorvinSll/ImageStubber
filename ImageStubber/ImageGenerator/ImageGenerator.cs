@@ -19,7 +19,7 @@ namespace ImageStubber.ImageGenerator
         {
             _logger = logger;
         }
-        public MemoryStream GenerateImage(int width, int height, string bgColor, string textColor)
+        public byte[] GenerateImage(int width, int height, string bgColor, string textColor)
         {
             using var bitmap = new Bitmap(width, height, PixelFormat.Format32bppArgb);
             using var graphics = Graphics.FromImage(bitmap);
@@ -52,7 +52,7 @@ namespace ImageStubber.ImageGenerator
 
             using var ms = new MemoryStream();
             bitmap.Save(ms, ImageFormat.Png);
-            return ms;
+            return ms.ToArray();
         }
     }
 }

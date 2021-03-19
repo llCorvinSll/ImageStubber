@@ -1,0 +1,5 @@
+namespace: default
+
+version: latest
+
+replicas: 4

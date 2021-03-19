@@ -8,6 +8,7 @@ namespace ImageStubber.Controllers
 {
     [ApiController]
     [Route("image")]
+    [ResponseCache(VaryByHeader = "User-Agent", Duration = 43200)]
     public class ImageController : ControllerBase
     {
         private readonly IImageGenerator _imageGenerator;
@@ -32,10 +33,10 @@ namespace ImageStubber.Controllers
             if (!_cache.TryGetValue(key, out image))
             {
                 var ms = _imageGenerator.GenerateImage(width, height, bgColor, textColor);
-                image = ms.ToArray();
+                image = ms;
 
                 var cacheEntryOptions = new MemoryCacheEntryOptions()
-                    .SetSlidingExpiration(TimeSpan.FromSeconds(3));
+                    .SetSlidingExpiration(TimeSpan.FromHours(8));
 
                 _cache.Set(key, image, cacheEntryOptions);
             }

@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: image-stubber
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: image-stubber
+spec:
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+      app: image-stubber
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: image-stubber
+    spec:
+      containers:
+        - image: corvinus/image_stubber:{{ .Values.version }}
+          imagePullPolicy: Always
+          name: api
+          resources:
+            requests:
+              cpu: "2"
+              memory: 1Gi
+            limits:
+              cpu: "4"
+              memory: 2Gi
+          ports:
+            - name: http
+              containerPort: 80
+      imagePullSecrets:
+        - name: regcred
+
+      restartPolicy: Always
