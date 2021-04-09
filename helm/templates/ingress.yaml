@@ -1,0 +1,26 @@
+{{- if .Values.ingress.host }}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ .Chart.Name }}
+  labels:
+    app: {{ .Chart.Name }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+  {{- if .Values.ingress.annotations }}
+annotations:
+  {{ toYaml .Values.ingress.annotations | indent 4 }}
+  {{- end }}
+spec:
+  rules:
+    - host: {{ .Values.ingress.host | quote }}
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: {{ .Chart.Name }}
+              servicePort: 80
+  {{- if .Values.ingress.tls }}
+tls:
+  {{ toYaml .Values.ingress.tls | indent 4 }}
+  {{- end -}}
+  {{- end -}}

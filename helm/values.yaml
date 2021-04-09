@@ -1,0 +1,8 @@
+namespace: default
+
+version: latest
+
+replicas: 2
+
+ingress:
+  host: image-stubber.cluster.local
