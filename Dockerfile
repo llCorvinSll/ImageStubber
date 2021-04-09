@@ -5,10 +5,12 @@ WORKDIR /source
 # copy csproj and restore as distinct layers
 COPY *.sln .
 COPY ImageStubber/*.csproj ./ImageStubber/
+COPY ImageStubber.Tests/*.csproj ./ImageStubber.Tests/
 RUN dotnet restore -v d
 
 # copy everything else and build app
 COPY ImageStubber/. ./ImageStubber/
+COPY ImageStubber.Tests/. ./ImageStubber.Tests/
 WORKDIR /source/ImageStubber
 RUN dotnet publish -c release -o /app --no-restore
 
