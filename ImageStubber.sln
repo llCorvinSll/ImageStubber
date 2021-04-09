@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageStubber", "ImageStubber\ImageStubber.csproj", "{082AEB4A-7047-4165-A3A7-EA9B039F0C75}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageStubber.Tests", "ImageStubber.Tests\ImageStubber.Tests.csproj", "{0974404B-94DD-4DD9-8EC1-DAE4D6045CED}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{082AEB4A-7047-4165-A3A7-EA9B039F0C75}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{082AEB4A-7047-4165-A3A7-EA9B039F0C75}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{082AEB4A-7047-4165-A3A7-EA9B039F0C75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0974404B-94DD-4DD9-8EC1-DAE4D6045CED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0974404B-94DD-4DD9-8EC1-DAE4D6045CED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0974404B-94DD-4DD9-8EC1-DAE4D6045CED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0974404B-94DD-4DD9-8EC1-DAE4D6045CED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

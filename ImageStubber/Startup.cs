@@ -1,5 +1,5 @@
 using System;
-using ImageStubber.ImageGenerator;
+using ImageStubber.Image.ImageGenerator;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -23,7 +23,7 @@ namespace ImageStubber
         {
             services.AddControllers();
             services.AddMemoryCache();
-            services.AddScoped<IImageGenerator, ImageGenerator.ImageGenerator>();
+            services.AddScoped<IImageGenerator, Image.ImageGenerator.ImageGenerator>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "ImageStubber", Version = "v1"});

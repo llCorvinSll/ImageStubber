@@ -1,10 +1,10 @@
 ﻿using System;
-using ImageStubber.ImageGenerator;
+using ImageStubber.Image.ImageGenerator;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 
-namespace ImageStubber.Controllers
+namespace ImageStubber.Image
 {
     [ApiController]
     [Route("image")]
@@ -32,7 +32,8 @@ namespace ImageStubber.Controllers
 
             if (!_cache.TryGetValue(key, out image))
             {
-                var ms = _imageGenerator.GenerateImage(width, height, bgColor, textColor);
+                var imageDescriptions = ImageParamsParser.Parse(width, height, bgColor, textColor);
+                var ms = _imageGenerator.GenerateImage(imageDescriptions);
                 image = ms;
 
                 var cacheEntryOptions = new MemoryCacheEntryOptions()
