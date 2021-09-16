@@ -60,5 +60,44 @@ namespace ImageStubber.Image
             
             return File(image, "image/png");
         }
+
+        /// <summary>
+        /// Create png image with specific size and colors.
+        /// Image have text with size in pixels
+        /// </summary>
+        /// <param name="bgColor">Main image color</param>
+        /// <param name="textColor">Color of text</param>
+        /// <param name="resolution">Size of image in format widthxheight (for example 200x200)</param>
+        /// <remarks>
+        /// support multiple color formats
+        ///
+        ///     lightGrey (standard web colors)
+        ///     1e2832
+        ///     1e283280
+        ///     rgba(30,40,50,0.5)
+        /// </remarks>
+        [HttpGet("{bgColor=7d7d7d}/{textColor=ffffff}/{resolution=200x200}")]
+        public FileContentResult GetImageWithComposedSize(string bgColor, string textColor, string resolution)
+        {
+            var (width, height) = ImageParamsParser.ParseResolution(resolution);
+            
+            var key = $"{width}-{height}-{bgColor}-{textColor}";
+            
+            byte[] image;
+
+            if (!_cache.TryGetValue(key, out image))
+            {
+                var imageDescriptions = ImageParamsParser.Parse(width, height, bgColor, textColor);
+                var ms = _imageGenerator.GenerateImage(imageDescriptions);
+                image = ms;
+
+                var cacheEntryOptions = new MemoryCacheEntryOptions()
+                    .SetSlidingExpiration(TimeSpan.FromHours(8));
+
+                _cache.Set(key, image, cacheEntryOptions);
+            }
+
+            return File(image, "image/png");
+        }
     }
 }
