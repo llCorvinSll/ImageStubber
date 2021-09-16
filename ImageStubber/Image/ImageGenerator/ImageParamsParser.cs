@@ -1,11 +1,41 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
+using System.Net.Http.Headers;
 
 namespace ImageStubber.Image.ImageGenerator
 {
     public static class ImageParamsParser
     {
+        public static (int Width, int Height) ParseResolution(string resolution)
+        {
+            var split = resolution.Split("x");
+
+            if (split.Length != 2)
+            {
+                return (100, 100);
+            }
+
+            var width = split[0];
+            var widthValue = 100;
+            var height = split[1];
+            var heightValue = 100;
+            (int Width, int Height) result = (100, 100);
+
+            if (int.TryParse(width, out widthValue))
+            {
+                result.Width = widthValue;
+            }
+
+            if (int.TryParse(height, out heightValue))
+            {
+                result.Height = heightValue;
+            }
+
+            return result;
+        }
+
         public static ImageDescription Parse(int width, int height, string bgColor, string txtColor)
         {
             var colorError = false;
