@@ -36,7 +36,7 @@ namespace ImageStubber.Image.ImageGenerator
             return result;
         }
 
-        public static ImageDescription Parse(int width, int height, string bgColor, string txtColor)
+        public static ImageDescription Parse(int width, int height, string bgColor, string txtColor, string text = "")
         {
             var colorError = false;
             
@@ -53,7 +53,7 @@ namespace ImageStubber.Image.ImageGenerator
                 colorError = true;
             }
             
-            return new ImageDescription(width, height, backgroundColor!.Value, textColor!.Value, colorError);
+            return new ImageDescription(width, height, backgroundColor!.Value, textColor!.Value, colorError, text);
         }
 
         public static bool ParseColor(string colorString, out Color? color)
