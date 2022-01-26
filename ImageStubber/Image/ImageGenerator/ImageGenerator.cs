@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
@@ -86,7 +85,6 @@ namespace ImageStubber.Image.ImageGenerator
 
         public byte[] GenerateQrImage(ImageDescription description)
         {
-            
             using var bitmap = new Bitmap(description.Width, description.Height, PixelFormat.Format32bppArgb);
             bitmap.MakeTransparent();
 
@@ -131,8 +129,7 @@ namespace ImageStubber.Image.ImageGenerator
 
             var size = Math.Min(description.Width, description.Height) / qrCodeData.ModuleMatrix.Count;
                 
-            var qrCodeImage = qrCode.GetGraphic(size, Color.Black, description.BgColor,
-                drawQuietZones: true);
+            var qrCodeImage = qrCode.GetGraphic(size, Color.Black, description.BgColor, true);
 
             return qrCodeImage;
         }
