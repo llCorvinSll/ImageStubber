@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 
+
 namespace ImageStubber.Image
 {
     [ApiController]
@@ -89,6 +90,30 @@ namespace ImageStubber.Image
             {
                 var imageDescriptions = ImageParamsParser.Parse(width, height, bgColor, textColor);
                 var ms = _imageGenerator.GenerateImage(imageDescriptions);
+                image = ms;
+
+                var cacheEntryOptions = new MemoryCacheEntryOptions()
+                    .SetSlidingExpiration(TimeSpan.FromHours(8));
+
+                _cache.Set(key, image, cacheEntryOptions);
+            }
+
+            return File(image, "image/png");
+        }
+
+        [HttpGet("{bgColor=7d7d7d}/{textColor=ffffff}/{resolution=200x200}/qr/{text=}")]
+        public FileContentResult GetImageWithQRCode(string bgColor, string textColor, string resolution, string text)
+        {
+            var (width, height) = ImageParamsParser.ParseResolution(resolution);
+            
+            var key = $"qr-{width}-{height}-{bgColor}-{textColor}-{text}";
+            
+            byte[] image;
+
+            if (!_cache.TryGetValue(key, out image))
+            {
+                var imageDescriptions = ImageParamsParser.Parse(width, height, bgColor, textColor, text);
+                var ms = _imageGenerator.GenerateQrImage(imageDescriptions);
                 image = ms;
 
                 var cacheEntryOptions = new MemoryCacheEntryOptions()
